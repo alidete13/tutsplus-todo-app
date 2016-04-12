@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let item = self.items[indexPath.row]
         
         // Dequeue Table View Cell
-        let tableViewCell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath)
+        let tableViewCell = tableView.dequeueReusableCellWithIdentifier("RegularOldTableViewCell", forIndexPath: indexPath)
         
         // Configure Table View Cell
         tableViewCell.textLabel?.text = item
@@ -41,8 +41,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Populate To-Do List with a Few Items
         self.items = ["Buy Milk", "Finish Tutorial", "Play Minecraft"]
         
+        // Commented out, because I prefer to do this by adding a prototype cell to the storyboard.
         // Register Class for Cell Reuse
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        // self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
     }
 
     override func didReceiveMemoryWarning() {
