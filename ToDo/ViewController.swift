@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet var tableView: UITableView!
     
     var items: [String] = []
+    var doneItems: [String] = []
     
     // UITableViewDataSource
     
@@ -32,11 +33,57 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Configure Table View Cell
         tableViewCell.textLabel?.text = item
         
+        if self.doneItems.contains(item) {
+            tableViewCell.accessoryType = .Checkmark
+        } else {
+            tableViewCell.accessoryType = .None
+        }
+        
         return tableViewCell
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let item = self.items[indexPath.row]
+            
+            // Update Items
+            self.items.removeAtIndex(indexPath.row)
+            
+            if let index = self.doneItems.indexOf(item) {
+                self.doneItems.removeAtIndex(index)
+            }
+            
+            // Update Table View
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Right)
+        }
+    }
+    
+    // UITableViewDelegate
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        // Fetch Item
+        let item = self.items[indexPath.row]
+        
+        // Fetch Table View Cell
+        let tableViewCell = tableView.cellForRowAtIndexPath(indexPath)
+        
+        // Find Index of Item
+        let index = self.doneItems.indexOf(item)
+        
+        if let index = index {
+            self.doneItems.removeAtIndex(index)
+            tableViewCell?.accessoryType = UITableViewCellAccessoryType.None
+            
+        } else {
+            self.doneItems.append(item)
+            tableViewCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
     }
     
     // AddItemViewControllerDelegate
@@ -51,16 +98,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dismiss Add Item View Controller
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Update Items
-            self.items.removeAtIndex(indexPath.row)
-            
-            // Update Table View
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Right)
-        }
-    }
+
 
     
     // Prepare for Segue
@@ -83,6 +121,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Populate To-Do List with a Few Items
         self.items = ["Buy Milk", "Finish Tutorial", "Play Minecraft"]
+        self.doneItems = ["Finish Tutorial"]
         
         // Commented out, because I prefer to do this by adding a prototype cell to the storyboard.
         // Register Class for Cell Reuse
