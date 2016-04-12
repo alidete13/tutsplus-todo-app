@@ -5,6 +5,7 @@
 // This project contains the code you get if you follow the directions in these tutorials:
 // http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23334
 // http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23335
+// http://code.tutsplus.com/tutorials/swift-from-scratch-access-control-and-property-observers--cms-23487
 //
 
 import UIKit
@@ -34,6 +35,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return tableViewCell
     }
     
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
     // AddItemViewControllerDelegate
     
     func controller(controller: AddItemViewController, didAddItem: String) {
@@ -45,6 +50,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Dismiss Add Item View Controller
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            // Update Items
+            self.items.removeAtIndex(indexPath.row)
+            
+            // Update Table View
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Right)
+        }
     }
 
     

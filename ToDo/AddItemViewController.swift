@@ -5,6 +5,7 @@
 // This project contains the code you get if you follow the directions in these tutorials:
 // http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23334
 // http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23335
+// http://code.tutsplus.com/tutorials/swift-from-scratch-access-control-and-property-observers--cms-23487
 //
 
 import UIKit
