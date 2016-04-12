@@ -2,8 +2,9 @@
 //  AppDelegate.swift
 //  ToDo
 //
-// This project contains the code you get if you follow the directions in this tutorial:
+// This project contains the code you get if you follow the directions in these tutorials:
 // http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23334
+// http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23335
 //
 
 import UIKit

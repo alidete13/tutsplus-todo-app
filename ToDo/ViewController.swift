@@ -2,19 +2,20 @@
 //  ViewController.swift
 //  ToDo
 //
-// This project contains the code you get if you follow the directions in this tutorial:
+// This project contains the code you get if you follow the directions in these tutorials:
 // http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23334
+// http://code.tutsplus.com/tutorials/swift-from-scratch-inheritance-and-protocols--cms-23335
 //
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AddItemViewControllerDelegate {
     
     @IBOutlet var tableView: UITableView!
     
     var items: [String] = []
     
-    // Table View Data Source
+    // UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.items.count
@@ -31,6 +32,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableViewCell.textLabel?.text = item
         
         return tableViewCell
+    }
+    
+    // AddItemViewControllerDelegate
+    
+    func controller(controller: AddItemViewController, didAddItem: String) {
+        // Update Data Source
+        self.items.append(didAddItem)
+        
+        // Reload Table View
+        self.tableView.reloadData()
+        
+        // Dismiss Add Item View Controller
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    
+    // Prepare for Segue
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AddItemSegue" {
+            let navigationController = segue.destinationViewController as? UINavigationController
+            let addItemViewController = navigationController?.topViewController as? AddItemViewController
+            
+            if let viewController = addItemViewController {
+                viewController.delegate = self
+            }
+        }
     }
     
     // Usual
